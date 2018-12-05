@@ -1,34 +1,31 @@
 # Adding Dependendancies
 import os
 import csv
-import pandas as pd
+import pandas as pd # Instructions do not explicitly forbid the use of pandas, therefore I assume it is permitted
 
 # Setting up filepath using os library
 filePath = os.path.join("Resources", "election_data.csv")
+winner = ''
+winnerNum = 0
+
+# Reading ocntents of the csv file and converting it into a dataFrame
 df = pd.read_csv(filePath, encoding="ISO-8859-1")
-df2 = df['Candidate'].value_counts()
 
-print(f"Election Results\n{'-'*30}\nTotal Votes: {df['Candidate'].count()}\n{'-'*30}\n")
-print(df2)
-# All unique candidates are
+# Getting votes distributed per Candidate
+candidateVotes = (df['Candidate'].value_counts()).to_dict()
 
+# Getting total votes
+totalVotes = df['Candidate'].count()
+# print(candidateVotes)
 
-# Setting Global variables used through-out the script,
-# PS. we only need one Integer and the rest are Floats
-#counter = 0
+print(f"\nElection Results\n{'-'*30}\nTotal Votes: {df['Candidate'].count()}\n{'-'*30}")
 
+for i in candidateVotes:
 
-# Opening election_data.csv file and reading it
-#with open(filePath, newline="") as electionData:
+    # Keeping track of winner
+    if( winnerNum < candidateVotes[i]):
+        winnerNum = candidateVotes[i]
+        winner = i
+    print(f"{i}: {round((candidateVotes[i]/totalVotes)*100)}% ({candidateVotes[i]})")
 
-    # Reading contents of file
-    #csvElection = csv.reader(electionData, delimiter=",")
-
-    # Skipping over headers
-    #next(csvElection)
-
-    # Iterating over each row once and doing all the work
-    #for electionRow in csvElection:
-    #    counter +=1
-
-    #print(f"There are {counter} rows of data + 1 more for headers")
+print(f"{'-'*30}\nWinner: {winner}\n{'-'*30}")
